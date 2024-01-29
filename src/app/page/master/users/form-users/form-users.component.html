@@ -1,0 +1,62 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <form [formGroup]="fg">
+                <h5>{{label.user_title_add}}</h5>
+                <div class="p-fluid p-formgrid grid">
+                    <div class="field col-12 md:col-6">
+                        <label for="name">{{label.name}}</label>
+                        <input type="text" pInputText id="name" formControlName="name" 
+                                [ngClass]="{'ng-invalid ng-dirty' : submitted && fg.controls['name'].errors}"/>
+                        <small class="ng-dirty ng-invalid text-red-500" *ngIf="submitted && fg.controls['name'].errors">{{label.invalid_name}}</small>
+                    </div>
+                    <div class="field col-12 md:col-6">
+                        <label for="username">{{label.username}}</label>
+                        <input type="text" pInputText formControlName="username" id="username"
+                                [ngClass]="{'ng-invalid ng-dirty' : submitted && fg.controls['username'].errors}"/>
+                        <small class="ng-dirty ng-invalid text-red-500" *ngIf="submitted && fg.controls['username'].errors">{{label.invalid_username}}</small>
+                    </div>
+                    <div class="field col-12 md:col-6">
+                        <label for="email">{{label.email}}</label>
+                            <input type="text" pInputText id="email" formControlName="email"
+                                [ngClass]="{'ng-invalid ng-dirty' : submitted && fg.controls['email'].value == null || fg.controls['email'].value == ''}" 
+                                (input)="validateEmail(fg.controls['email'].value)"/>
+                        <small class="ng-dirty ng-invalid text-red-500" *ngIf="submitted && fg.controls['email'].value == null || fg.controls['email'].value == ''">{{label.invalid_email}}</small>
+                        <div *ngIf="fg.controls['email'].errors &&(fg.controls['email'].touched || fg.controls['email'].dirty)" class="ng-dirty ng-invalid text-red-500">
+                            <small [hidden]="!fg.controls['email'].errors">
+                                {{label.invalid_email_pattern}}
+                            </small>
+                        </div>
+                    </div>
+                    <div class="field col-12 md:col-6">
+                        <label for="address">{{label.address}}</label>
+                        <input type="text" pInputText formControlName="address" id="address"
+                                [ngClass]="{'ng-invalid ng-dirty' : submitted && fg.controls['address'].errors}"/>
+                        <small class="ng-dirty ng-invalid text-red-500" *ngIf="submitted && fg.controls['address'].errors">{{label.invalid_address}}</small>
+                    </div>
+                    <div class="field col-12 md:col-6">
+                        <label for="website">{{label.website}}</label>
+                        <input type="text" pInputText formControlName="website" id="website"
+                                [ngClass]="{'ng-invalid ng-dirty' : submitted && fg.controls['website'].errors}"/>
+                        <small class="ng-dirty ng-invalid text-red-500" *ngIf="submitted && fg.controls['website'].errors">{{label.invalid_website}}</small>
+                    </div>
+                    <div class="field col-12 md:col-6">
+                        <label for="company">{{label.company}}</label>
+                        <input type="text" pInputText formControlName="company" id="company"
+                                [ngClass]="{'ng-invalid ng-dirty' : submitted && fg.controls['company'].errors}"/>
+                        <small class="ng-dirty ng-invalid text-red-500" *ngIf="submitted && fg.controls['company'].errors">{{label.invalid_company}}</small>
+                    </div>
+                </div>
+            </form>
+            <div class="flex flex-wrap align-items-end justify-content-end">
+                <button pButton pRipple label="{{label.cancel}}" icon="pi pi-times" (click)="backToUser()" >
+                    <span class="p-button-text"></span>
+                </button>
+                &nbsp;
+                <button pButton pRipple label="{{label.save}}" icon="pi pi-check" (click)="saveUser()">
+                    <span class="p-button-text"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

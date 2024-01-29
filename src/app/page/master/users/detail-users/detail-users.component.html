@@ -1,0 +1,36 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+			<h5>{{label.user_title_detail}}</h5>
+            <div class="p-fluid p-formgrid grid">
+                <div class="field col-12 md:col-6">
+                    <label for="name">{{label.name}}</label>
+                    <input type="text" pInputText id="name" [(ngModel)]="user.name" disabled/>
+                </div>
+				<div class="field col-12 md:col-6">
+                    <label for="username">{{label.username}}</label>
+                    <input type="text" pInputText id="username" [(ngModel)]="user.username" disabled/>
+                </div>
+                <div class="field col-12 md:col-6">
+                    <label for="email">{{label.email}}</label>
+                    <input type="text" pInputText id="email" [(ngModel)]="user.email" disabled/>
+                </div>
+				<div class="field col-12 md:col-6">
+                    <label for="address">{{label.address}}</label>
+                    <input type="text" pInputText id="address" [(ngModel)]="user.address" disabled/>
+                </div>
+				<div class="field col-12 md:col-6">
+                    <label for="website">{{label.website}}</label>
+                    <input type="text" pInputText id="website" [(ngModel)]="user.website" disabled/>
+                </div>
+				<div class="field col-12 md:col-6">
+                    <label for="company">{{label.company}}</label>
+                    <input type="text" pInputText id="company" [(ngModel)]="user.company" disabled/>
+                </div>
+            </div>
+            <div class="flex flex-wrap align-items-end justify-content-end">
+                <button pButton pRipple label="{{label.ok}}" icon="pi pi-check" class="p-button-text" (click)="backToUser()"></button>
+            </div>
+        </div>
+    </div>
+</div>

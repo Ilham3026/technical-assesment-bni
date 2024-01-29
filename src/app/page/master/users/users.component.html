@@ -1,0 +1,154 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card px-6 py-6">
+            <p-toast></p-toast>
+            <p-toolbar styleClass="mb-4">
+                <ng-template pTemplate="left">
+                    <button pButton pRipple label="{{label.new}}" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
+                </ng-template>
+
+                <ng-template pTemplate="right">
+                    <button pButton pRipple label="{{label.delete}}" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedUsers()" [disabled]="!selectedUsers || !selectedUsers.length"></button>
+                </ng-template>
+            </p-toolbar>
+
+            <p-table #dt [value]="users" [columns]="cols" responsiveLayout="scroll" [rows]="10" [globalFilterFields]="searchAllFilter" [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [(selection)]="selectedUsers" selectionMode="multiple" [rowHover]="true" dataKey="id">
+                <ng-template pTemplate="caption">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+                        <h5 class="m-0">{{label.user}}</h5>
+                        <span class="block mt-2 md:mt-0">
+                            <button pButton pRipple label="{{label.search}}" icon="pi pi-search" class="p-button-primary mr-2" (click)="searchDialog = true"></button>
+                            <span class="p-input-icon-left">
+                                <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="{{label.search_all}}" [(ngModel)]="searchAll" class="w-full sm:w-auto"/>
+                                <i class="pi pi-search"></i>
+                            </span>
+                        </span>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 3rem">
+                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                        </th>
+                        <th>{{label.action}}</th>
+                        <th pSortableColumn="name">{{label.name}} <p-sortIcon field="name"></p-sortIcon></th>
+                        <th pSortableColumn="username">{{label.username}} <p-sortIcon field="username"></p-sortIcon></th>
+                        <th pSortableColumn="email">{{label.email}} <p-sortIcon field="email"></p-sortIcon></th>
+                        <th pSortableColumn="address">{{label.address}} <p-sortIcon field="address"></p-sortIcon></th>
+                        <th pSortableColumn="website">{{label.website}} <p-sortIcon field="website"></p-sortIcon></th>
+                        <th pSortableColumn="company">{{label.company}} <p-sortIcon field="company"></p-sortIcon></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-user>
+                    <tr (click)="detailUser(user);">
+                        <td>
+                            <p-tableCheckbox [value]="user" (click)="$event.stopPropagation();"></p-tableCheckbox>
+                        </td>
+                        <td>
+                            <div class="flex">
+                                <button pButton pRipple icon="pi pi-exclamation-circle" class="p-button-rounded p-button-warning mr-2" (click)="detailUser(user); $event.stopPropagation();"></button>
+                                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editUser(); $event.stopPropagation(); validEmail = true;"></button>
+                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger" (click)="deleteUser(); $event.stopPropagation();"></button>
+                            </div>
+                        </td>
+                        <td style="width:14%; min-width:10rem;">
+                            <span class="p-column-title">{{label.name}}</span>
+                            {{user.name}}
+                        </td>
+                        <td style="width:14%; min-width:10rem;">
+                            <span class="p-column-title">{{label.username}}</span>
+                            {{user.username}}
+                        </td>
+                        <td style="width:14%; min-width:10rem;">
+                            <span class="p-column-title">{{label.email}}</span>
+                            {{user.email}}
+                        </td>
+                        <td style="width:14%; min-width:10rem;">
+                            <span class="p-column-title">{{label.address}}</span>
+                            {{user.address}}
+                        </td>
+                        <td style="width:14%; min-width:10rem;">
+                            <span class="p-column-title">{{label.website}}</span>
+                            {{user.website}}
+                        </td>
+                        <td style="width:14%; min-width:10rem;">
+                            <span class="p-column-title">{{label.company}}</span>
+                            {{user.company}}
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+
+        <p-dialog [(visible)]="deleteUserDialog" header="{{label.confirm}}" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span>{{messages.delete_confirm}}</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="{{label.no}}" (click)="deleteUserDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="{{label.yes}}" (click)="confirmDelete()"></button>
+            </ng-template>
+        </p-dialog>
+
+        <p-dialog [(visible)]="deleteUsersDialog" header="{{label.confirm}}" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span>{{messages.delete_confirm_selected_user}}</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="{{label.no}}" (click)="deleteUsersDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="{{label.yes}}" (click)="confirmDeleteSelected()"></button>
+            </ng-template>
+        </p-dialog>
+
+        <p-dialog [(visible)]="searchDialog" header="{{label.search}}" [modal]="true" class="p-fluid">
+            <ng-template pTemplate="content">
+                <div class="formgrid grid">
+                    <div class="field p-inputgroup col-12 md:col">
+                        <input type="text" pInputText placeholder="{{label.phs_name}}" [(ngModel)]="searchValue.name"
+                        (input)="onFilter(dt, $event, 'name')"/>
+                        <button type="button" pButton icon="pi pi-times" class="p-button-warning"
+                            (click)="searchValue.name = ''; onFilter(dt, $event, 'name')"></button>
+                    </div>
+                    <div class="field p-inputgroup col-12 md:col">
+                        <input type="text" pInputText placeholder="{{label.phs_username}}" [(ngModel)]="searchValue.username"
+                        (input)="onFilter(dt, $event, 'username')" />
+                        <button type="button" pButton icon="pi pi-times" class="p-button-warning" 
+                        (click)="searchValue.username = ''; onFilter(dt, $event, 'username')"></button>
+                    </div>
+                    <div class="field p-inputgroup col-12 md:col">
+                        <input type="text" pInputText placeholder="{{label.phs_email}}" [(ngModel)]="searchValue.email"
+                        (input)="onFilter(dt, $event, 'email')" />
+                        <button type="button" pButton icon="pi pi-times" class="p-button-warning" 
+                        (click)="searchValue.email = ''; onFilter(dt, $event, 'email')"></button>
+                    </div>
+                </div>
+                <div class="formgrid grid">
+                    <div class="field p-inputgroup col-12 md:col">
+                        <input type="text" pInputText placeholder="{{label.phs_address}}" [(ngModel)]="searchValue.address"
+                        (input)="onFilter(dt, $event, 'address')"/>
+                        <button type="button" pButton icon="pi pi-times" class="p-button-warning"
+                            (click)="searchValue.address = ''; onFilter(dt, $event, 'address')"></button>
+                    </div>
+                    <div class="field p-inputgroup col-12 md:col">
+                        <input type="text" pInputText placeholder="{{label.phs_website}}" [(ngModel)]="searchValue.website"
+                        (input)="onFilter(dt, $event, 'website')"/>
+                        <button type="button" pButton icon="pi pi-times" class="p-button-warning"
+                            (click)="searchValue.website = ''; onFilter(dt, $event, 'website')"></button>
+                    </div>
+                    <div class="field p-inputgroup col-12 md:col">
+                        <input type="text" pInputText placeholder="{{label.phs_company}}" [(ngModel)]="searchValue.company"
+                        (input)="onFilter(dt, $event, 'company')"/>
+                        <button type="button" pButton icon="pi pi-times" class="p-button-warning"
+                            (click)="searchValue.company = ''; onFilter(dt, $event, 'company')"></button>
+                    </div>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple class="p-button-warning" label="{{label.clear}}" (click)="clearSearch(dt)"></button>
+                <button pButton pRipple class="p-button-danger" label="{{label.close}}" (click)="searchDialog = false"></button>
+            </ng-template>
+        </p-dialog>
+    </div>
+</div>
