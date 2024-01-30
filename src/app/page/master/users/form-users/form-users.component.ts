@@ -34,6 +34,8 @@ export class FormUsersComponent implements OnInit {
 
   validEmail:boolean = false;
 
+  saveUserDialog:boolean = false;
+
   statuses: any[] = [];
 
   group: any[] = [];
@@ -62,9 +64,9 @@ export class FormUsersComponent implements OnInit {
 
   validateEmail(dt: any) {
     if(this.fg.controls['email'].hasError('pattern') || dt == '' || dt == null){
-      this.validEmail=false
+      this.validEmail=false;
     }else{
-      this.validEmail=true
+      this.validEmail=true;
     }
   }
   
@@ -73,16 +75,24 @@ export class FormUsersComponent implements OnInit {
 
     if (!this.fg.controls['name'].errors && !this.fg.controls['username'].errors && this.validEmail && 
         !this.fg.controls['address'].errors && !this.fg.controls['website'].errors && !this.fg.controls['company'].errors) {
-          for (const i in this.fg.controls) {
-            this.user[i] = this.fg.controls[i].value;
-          }
-
-      this.userService.addUsers(this.user).then( (data:any) => {
-        this.user.id = this.createId();
-        this.utils.showNotification(this.messages.success_type, this.messages.success_title, this.messages.created_user);
-        this.router.navigate(['master/users'], { state:{data:this.user} });
-      });
+      this.saveUserDialog = true;
     }
+  }
+
+  confirmSaveUser() {
+    
+    this.saveUserDialog = false;
+    this.utils.showLoading();
+    for (const i in this.fg.controls) {
+      this.user[i] = this.fg.controls[i].value;
+    }
+    this.userService.addUsers(this.user).then( (data:any) => {
+      this.user.id = this.createId();
+      this.utils.showNotification(this.messages.success_type, this.messages.success_title, this.messages.created_user);
+      this.router.navigate(['master/users'], { state:{data:this.user} });
+      this.utils.hideLoading();
+    });
+    
   }
 
   createId(): string {

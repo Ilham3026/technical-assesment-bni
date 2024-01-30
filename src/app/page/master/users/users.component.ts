@@ -37,6 +37,8 @@ export class UsersComponent implements OnInit {
 
     users: User[] = [];
 
+    user: User = {};
+
     selectedUsers: User[] = [];
 
     submitted: boolean = false;
@@ -115,7 +117,7 @@ export class UsersComponent implements OnInit {
         this.router.navigate(['master/form-users'], {});
     }
 
-    detailUser(user: any) {
+    detailUser(user: User) {
         this.router.navigate(['master/detail-users'], { state: {
             data:user, 
             search:this.searchValue, 
@@ -123,27 +125,40 @@ export class UsersComponent implements OnInit {
         } });
     }
 
-    deleteSelectedUsers() {
+    deleteSelectedUsers(user: User) {
         this.deleteUsersDialog = true;
+        this.user = { ...user };
     }
 
-    editUser() {
+    editUser(user: User) {
         this.utils.showNotification(this.messages.warning_type, this.messages.success_title, this.messages.updated_user);
     }
 
-    deleteUser() {
+    deleteUser(user: User) {
         this.deleteUserDialog = true;
+        this.user = { ...user };
     }
 
     confirmDeleteSelected() {
         this.deleteUsersDialog = false;
-        this.utils.showNotification(this.messages.error_type, this.messages.success_title, this.messages.delete_users);
-        this.selectedUsers = [];
+        this.utils.showLoading();
+        this.userService.addUsers(this.selectedUsers).then( (data:any) => {
+            this.users = this.users.filter(val => !this.selectedUsers.includes(val));
+            this.utils.showNotification(this.messages.error_type, this.messages.success_title, this.messages.delete_users);
+            this.utils.hideLoading();
+            this.selectedUsers = [];
+        });
     }
 
     confirmDelete() {
         this.deleteUserDialog = false;
-        this.utils.showNotification(this.messages.error_type, this.messages.success_title, this.messages.delete_user);
+        this.utils.showLoading();
+        this.userService.addUsers(this.selectedUsers).then( (data:any) => {
+            this.users = this.users.filter(val => val.id !== this.user.id);
+            this.utils.showNotification(this.messages.error_type, this.messages.success_title, this.messages.delete_user);
+            this.utils.hideLoading();
+            this.user = {};
+        });
     }
 
     onGlobalFilter(table: Table, event: Event) {

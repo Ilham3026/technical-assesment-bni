@@ -47,8 +47,8 @@
                         <td>
                             <div class="flex">
                                 <button pButton pRipple icon="pi pi-exclamation-circle" class="p-button-rounded p-button-warning mr-2" (click)="detailUser(user); $event.stopPropagation();"></button>
-                                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editUser(); $event.stopPropagation(); validEmail = true;"></button>
-                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger" (click)="deleteUser(); $event.stopPropagation();"></button>
+                                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editUser(user); $event.stopPropagation(); validEmail = true;"></button>
+                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger" (click)="deleteUser(user); $event.stopPropagation();"></button>
                             </div>
                         </td>
                         <td style="width:14%; min-width:10rem;">

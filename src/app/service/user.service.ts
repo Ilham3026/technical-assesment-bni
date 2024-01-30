@@ -23,4 +23,22 @@ export class UserService {
             .then(res => res as User[])
     }
 
+    updateUser(payload:any) {
+        return this.http.put<any>(this.constant.baseURL+'users/'+payload.id,payload)
+            .toPromise()
+            .then(res => res as User[])
+    }
+
+    deleteUsers(payload:any) {
+        return this.http.delete<any>(this.constant.baseURL+'users/delete',payload)
+            .toPromise()
+            .then((res) => {})
+    }
+
+    deleteUser(payload:any) {
+        return this.http.delete<any>(this.constant.baseURL+'users/'+payload.id)
+            .toPromise()
+            .then((res) => {})
+    }
+
 }

@@ -1,6 +1,7 @@
 export const Messages = {
 
     //dialog delete
+    save_confirm: 'Are you sure you want to save this data?',
     delete_confirm: 'Are you sure you want to delete this data?',
     delete_confirm_selected_user: 'Are you sure you want to delete selected Users?',
 

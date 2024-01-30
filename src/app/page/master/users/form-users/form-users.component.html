@@ -57,6 +57,17 @@
                     <span class="p-button-text"></span>
                 </button>
             </div>
+            
+            <p-dialog [(visible)]="saveUserDialog" header="{{label.confirm}}" [modal]="true" [style]="{width:'450px'}">
+                <div class="flex align-items-center justify-content-center">
+                    <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                    <span>{{messages.save_confirm}}</span>
+                </div>
+                <ng-template pTemplate="footer">
+                    <button pButton pRipple icon="pi pi-times" class="p-button-text" label="{{label.no}}" (click)="saveUserDialog = false"></button>
+                    <button pButton pRipple icon="pi pi-check" class="p-button-text" label="{{label.yes}}" (click)="confirmSaveUser()"></button>
+                </ng-template>
+            </p-dialog>
         </div>
     </div>
 </div>
