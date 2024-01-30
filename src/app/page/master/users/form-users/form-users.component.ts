@@ -24,20 +24,20 @@ export class FormUsersComponent implements OnInit {
 
   constant = Constant; messages = Messages; label = Label;
 
+  searchAll: string;
+
   fg: FormGroup;
   
   today: Date = new Date();
 
+  search: User = {};
   user: User = {};
 
   submitted: boolean = false;
-
   validEmail:boolean = false;
-
   saveUserDialog:boolean = false;
 
   statuses: any[] = [];
-
   group: any[] = [];
 
   constructor(  private utils: Utils, 
@@ -47,6 +47,10 @@ export class FormUsersComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.user = history.state.data;
+    this.search = history.state.search;
+    this.searchAll = history.state.searchAll;
+    console.log(history.state.data);
 
     this.initFormGroup();
   }

@@ -26,36 +26,26 @@ export class UsersComponent implements OnInit {
     @ViewChild('dt', { static: false }) table: Table
     
     constant = Constant; messages = Messages; label = Label;
-
-    deleteUserDialog: boolean = false;
-
-    deleteUsersDialog: boolean = false;
-
-    searchDialog: boolean = false;
     
-    validEmail: boolean = false;
-
-    users: User[] = [];
-
-    user: User = {};
-
-    selectedUsers: User[] = [];
-
-    submitted: boolean = false;
-
+    rowsPerPageOptions = [5, 10, 20];
+    
     searchAll: string = '';
 
+    user: User = {};
     searchValue: User = {};
 
-    searchAllFilter: any = [];
+    deleteUserDialog: boolean = false;
+    deleteUsersDialog: boolean = false;
+    searchDialog: boolean = false;
+    validEmail: boolean = false;
+    submitted: boolean = false;
 
     cols: any[] = [];
-
-    statuses: any[] = [];
-
     group: any[] = [];
-
-    rowsPerPageOptions = [5, 10, 20];
+    users: User[] = [];
+    statuses: any[] = [];
+    selectedUsers: User[] = [];
+    searchAllFilter: any = [];
 
     constructor(
         private userService: UserService, 
@@ -125,13 +115,19 @@ export class UsersComponent implements OnInit {
         } });
     }
 
+    editUser(user: User) {
+        this.router.navigate(['master/form-users'], { state: {
+            data:user, 
+            search:this.searchValue, 
+            searchAll:this.searchAll
+        } });
+
+        // this.utils.showNotification(this.messages.warning_type, this.messages.success_title, this.messages.updated_user);
+    }
+
     deleteSelectedUsers(user: User) {
         this.deleteUsersDialog = true;
         this.user = { ...user };
-    }
-
-    editUser(user: User) {
-        this.utils.showNotification(this.messages.warning_type, this.messages.success_title, this.messages.updated_user);
     }
 
     deleteUser(user: User) {

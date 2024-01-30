@@ -28,15 +28,12 @@ export class DetailUsersComponent implements OnInit {
   today: Date = new Date();
 
   user: User = {};
-
-  submitted: boolean = false;
-
-  validEmail:boolean = false;
-
   search: User = {};
 
-  statuses: any[] = [];
+  submitted: boolean = false;
+  validEmail:boolean = false;
 
+  statuses: any[] = [];
   group: any[] = [];
 
   constructor(private utils: Utils, private router: Router) { }
