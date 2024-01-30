@@ -24,7 +24,7 @@ export class UserService {
     }
 
     updateUser(payload:any) {
-        return this.http.put<any>(this.constant.baseURL+'users/'+payload.id,payload)
+        return this.http.put<any>(this.constant.baseURL+'users/1',payload)
             .toPromise()
             .then(res => res as User[])
     }

@@ -33,6 +33,7 @@ export class FormUsersComponent implements OnInit {
   search: User = {};
   user: User = {};
 
+  isNotnull:boolean = false;
   submitted: boolean = false;
   validEmail:boolean = false;
   saveUserDialog:boolean = false;
@@ -47,16 +48,25 @@ export class FormUsersComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.user = history.state.data;
     this.search = history.state.search;
     this.searchAll = history.state.searchAll;
-    console.log(history.state.data);
-
     this.initFormGroup();
+    if(history.state.data){
+      this.isNotnull = true;
+      this.user = history.state.data;
+    }else{
+      this.isNotnull = false;
+    }
+    if(this.user){
+      this.fg.patchValue(this.user);
+      this.fg.markAllAsTouched();
+      this.validateEmail(this.user.email);
+    }
   }
 
   initFormGroup(){
     this.fg = this.fb.group({
+      id: [null],
       name: [null, [Validators.required]],
       username: [null, [Validators.required]],
       email: [null, [Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]],
@@ -90,12 +100,21 @@ export class FormUsersComponent implements OnInit {
     for (const i in this.fg.controls) {
       this.user[i] = this.fg.controls[i].value;
     }
-    this.userService.addUsers(this.user).then( (data:any) => {
-      this.user.id = this.createId();
-      this.utils.showNotification(this.messages.success_type, this.messages.success_title, this.messages.created_user);
-      this.router.navigate(['master/users'], { state:{data:this.user} });
-      this.utils.hideLoading();
-    });
+
+    if(history.state.data){
+      this.userService.updateUser(this.user).then( (data:any) => {
+        this.utils.showNotification(this.messages.success_type, this.messages.success_title, this.messages.updated_user);
+        this.router.navigate(['master/users'], { state:{data:this.user, update:true} });
+        this.utils.hideLoading();
+      });
+    }else{
+      this.userService.addUsers(this.user).then( (data:any) => {
+        this.user.id = this.createId();
+        this.utils.showNotification(this.messages.success_type, this.messages.success_title, this.messages.created_user);
+        this.router.navigate(['master/users'], { state:{data:this.user, update:false} });
+        this.utils.hideLoading();
+      });
+    }
     
   }
 

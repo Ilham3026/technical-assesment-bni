@@ -2,10 +2,11 @@
     <div class="col-12">
         <div class="card">
             <form [formGroup]="fg">
-                <h5>{{label.user_title_add}}</h5>
+                <h5>{{isNotnull?label.user_title_edit:label.user_title_add}}</h5>
                 <div class="p-fluid p-formgrid grid">
                     <div class="field col-12 md:col-6">
                         <label for="name">{{label.name}}</label>
+                        <input type="text" id="id" formControlName="id" hidden>
                         <input type="text" pInputText id="name" formControlName="name" 
                                 [ngClass]="{'ng-invalid ng-dirty' : submitted && fg.controls['name'].errors}"/>
                         <small class="ng-dirty ng-invalid text-red-500" *ngIf="submitted && fg.controls['name'].errors">{{label.invalid_name}}</small>
@@ -61,7 +62,7 @@
             <p-dialog [(visible)]="saveUserDialog" header="{{label.confirm}}" [modal]="true" [style]="{width:'450px'}">
                 <div class="flex align-items-center justify-content-center">
                     <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-                    <span>{{messages.save_confirm}}</span>
+                    <span>{{isNotnull?messages.update_confirm:messages.save_confirm}}</span>
                 </div>
                 <ng-template pTemplate="footer">
                     <button pButton pRipple icon="pi pi-times" class="p-button-text" label="{{label.no}}" (click)="saveUserDialog = false"></button>

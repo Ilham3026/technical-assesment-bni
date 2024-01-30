@@ -28,7 +28,7 @@ export class AppComponent implements OnInit {
                     id: e.id,
                     name: e.name,
                     username: e.username,
-                    email: e.email,
+                    email: e.email.toLowerCase(),
                     address: e.address.street,
                     website: e.website,
                     company: e.company.name

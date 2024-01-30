@@ -28,7 +28,7 @@ export class UsersComponent implements OnInit {
     constant = Constant; messages = Messages; label = Label;
     
     rowsPerPageOptions = [5, 10, 20];
-    
+
     searchAll: string = '';
 
     user: User = {};
@@ -58,7 +58,15 @@ export class UsersComponent implements OnInit {
 
         var hData = history.state.data;
         if(hData){
-            this.users.unshift(history.state.data);
+            if(history.state.update === true){
+                for(const i in this.users){
+                    if(this.users[i].id == hData.id){
+                        this.users[i] = hData;
+                    }
+                }
+            }else{
+                this.users.unshift(history.state.data);
+            }
         }
 
         var hSearch = history.state.search;
@@ -83,7 +91,15 @@ export class UsersComponent implements OnInit {
                 if(hSearchAll){this.searchAll = hSearchAll; this.table.filterGlobal(hSearchAll, this.constant.matchMode);}
             }, 500);
         }
+        this.initFilter();
+        this.initCols();
+    }
 
+    openNew() {
+        this.router.navigate(['master/form-users'], {});
+    }
+
+    initFilter() {
         this.searchAllFilter = [
             'name',
             'username',
@@ -92,7 +108,9 @@ export class UsersComponent implements OnInit {
             'website',
             'company',
         ];
+    }
 
+    initCols() {
         this.cols = [
             { field: 'name', header: 'Name' },
             { field: 'username', header: 'Username' },
@@ -101,10 +119,6 @@ export class UsersComponent implements OnInit {
             { field: 'website', header: 'Website' },
             { field: 'company', header: 'Company' },
         ];
-    }
-
-    openNew() {
-        this.router.navigate(['master/form-users'], {});
     }
 
     detailUser(user: User) {
@@ -121,8 +135,6 @@ export class UsersComponent implements OnInit {
             search:this.searchValue, 
             searchAll:this.searchAll
         } });
-
-        // this.utils.showNotification(this.messages.warning_type, this.messages.success_title, this.messages.updated_user);
     }
 
     deleteSelectedUsers(user: User) {
