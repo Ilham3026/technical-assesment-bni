@@ -1,4 +1,4 @@
-# Technical Assesment Backoffice
+# Technical Assesment BNI
 
 This project base on my baseApps. Using angular v16, fully standalone and lazy load routes.
 
