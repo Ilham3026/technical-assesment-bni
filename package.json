@@ -1,7 +1,6 @@
 {
     "name": "shell",
     "version": "16.0.0",
-    "license": "PrimeNG Commercial",
     "scripts": {
         "ng": "ng",
         "start": "ng serve",
