@@ -2,6 +2,7 @@ import { AvatarModule } from 'primeng/avatar';
 import { AvatarGroupModule } from 'primeng/avatargroup';
 import { BadgeModule } from 'primeng/badge';
 import { BlockUIModule } from 'primeng/blockui';
+import { ChartModule } from 'primeng/chart';
 import { ChipModule } from 'primeng/chip';
 import { InplaceModule } from 'primeng/inplace';
 import { ScrollTopModule } from 'primeng/scrolltop';
@@ -16,6 +17,7 @@ export const Misc = [
     AvatarGroupModule,
     BadgeModule,
     BlockUIModule,
+    ChartModule,
     ChipModule,
     InplaceModule,
     ScrollTopModule,

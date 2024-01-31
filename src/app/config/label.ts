@@ -3,6 +3,14 @@ export const Label = {
     //login
     login_welcoming: 'Welcome, User!',
     login_title: 'Sign in to continue',
+
+    //dashboard
+    dashboard_cardTitle1: 'Visitor',
+    dashboard_cardTitle2: 'Revenue',
+    dashboard_cardTitle3: 'User',
+    dashboard_cardTitle4: 'Activity',
+    dashboard_content: 'You can start by clicking menu',
+    chart_title: 'User Overview',
     
     // button
     confirm: 'Confirm',
@@ -58,7 +66,5 @@ export const Label = {
 
     ph_username: 'Enter username',
     ph_password: 'Enter password',
-
-    dashboard_content: 'You can start by clicking menu',
     
 };
